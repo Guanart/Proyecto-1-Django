@@ -1,0 +1,22 @@
+{% extends 'social/layout.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        Username: {{ form.username }}
+    </div>
+    <div>
+        Email: {{ form.email }}
+    </div>
+    <div>
+        Password: {{ form.password1 }}
+    </div>
+    <div>
+        Repeat password: {{ form.password2 }}
+    </div>
+    <button>Registrarse</button>
+</form>
+
+{% endblock content %}
