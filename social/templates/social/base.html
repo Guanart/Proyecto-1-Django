@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Network</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        You're logged as {{ request.user }}
+        <img src='{{ request.user.profile.picture.url }}' width="25" height="25">
+        <br>
+        <a href='{% url "home" %}'>Home</a>
+        <a href='{% url "new_post" %}'>New post</a>
+        <a href='{% url "profile" request.user.username %}'>Profile</a>
+        <a href='{% url "logout" %}'>Logout</a><br>
+    {% else %}
+        <p>Welcome! Join our community!</p>
+        <a href='{% url "home" %}'>Home</a>
+        <a href='{% url "login" %}'>Login</a>
+        <a href='{% url "register" %}'>Sign in</a>
+    {% endif %}
+
+    <hr>
+
+    {% block content %}
+    
+    {% endblock content %}
+</body>
+</html>

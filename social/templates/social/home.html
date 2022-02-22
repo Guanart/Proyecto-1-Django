@@ -1,0 +1,31 @@
+{% extends 'social/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<form method="get">
+    <input type="text" name="search" placeholder="Search post">
+</form>
+
+<table>
+    <thead>
+        <th>User</th>
+        <th>Title</th>
+        <th>Picture</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td><a href='{% url "profile" post.user.username %}'>{{ post.user.username }}</a></td>
+            <td><a href='{% url "post" post.id %}'>{{ post.name }}</a></td>
+            <td><img src="/media/{{ post.picture }}" width="50" height="50"></td>
+            <td>{{ post.created|naturaltime }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+
+{% include 'social/paginator.html' with page=posts %}
+
+{% endblock content %}

@@ -1,7 +1,7 @@
-{% extends 'social/layout.html' %}
+{% extends 'social/base.html' %}
 
 {% block content %}
-
+<h1>Sign in</h1>
 <form method="post">
     {% csrf_token %}
     <div>
@@ -16,7 +16,10 @@
     <div>
         Repeat password: {{ form.password2 }}
     </div>
-    <button>Registrarse</button>
+    <button>Register</button>
+    {% if form.errors %}
+        <p>User or password are not valid.</p>
+    {% endif %}
 </form>
 
 {% endblock content %}

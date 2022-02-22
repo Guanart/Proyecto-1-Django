@@ -1,0 +1,20 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+<h1>Login</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        Username: {{ form.username }}
+    </div>
+    <div>
+        Password: {{ form.password }}
+    </div>
+    {% if form.errors %}
+        <p>Username or password are not correct.</p>
+    {% endif %}
+    <button>Login</button>
+</form>
+<a href="{% url 'register' %}">Register</a>
+
+{% endblock content %}

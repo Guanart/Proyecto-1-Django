@@ -1,0 +1,59 @@
+{% load humanize %}
+
+<hr>
+<h2>Comments</h2>
+
+{% if request.user.is_authenticated %}
+  <form method="POST" action="{% url 'post' post.id %}">
+    {% csrf_token %}
+    <input type="text" name="content" style="width: 600px; height: 80px;">
+    <input type="text" name="user" hidden="true" value="{{ request.user.id }}">
+    <input type="text" name="post" hidden="true" value="{{ post.id }}">
+    <button type="submit">Submit Comment</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}">Login</a> to comment</p>
+{% endif %}
+
+{% if post %}
+<table>
+    <thead>
+        <th>Username</th>
+        <th>Picture</th>
+        <th>Comment</th>
+        <th>Date
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr>
+            <td><a href='{% url "profile" comment.user.username %}'>{{ comment.user.username }}</a></td>
+            <td><img src="/media/{{ comment.user.profile.picture }}" width="50" height="50"></td>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.created|naturaltime }}</td>
+            {% if request.user.username == comment.user.username %}
+                <td id="edit-comment-{{ comment.id }}">
+                  <a href='javascript:viewEditCommentForm(`{% csrf_token %}`, {{ comment.id }}, "{{ comment.content }}")'>Edit</a>
+                </td>
+                <td><a href='/comments/delete/{{ comment.id }}'>Delete</a></td> 
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>            
+{% else %}
+<h2>No comments</h2>
+{% endif %}
+
+<script>
+  function viewEditCommentForm(csrf, commentId, comment){
+    const commentEdit = document.getElementById(`edit-comment-${commentId}`)
+    const textArea = document.createElement('div')
+    textArea.innerHTML = `<form id="edit-comment-${commentId}" method="POST" action="/comments/edit/${commentId}">
+      ${csrf}
+      <input value="${comment}" type="text" name="content" style="width: 400px; height: 60px;">
+      <button>Edit</button>
+    </form>`
+    const child = commentEdit.children[0]
+    commentEdit.replaceChild(textArea, child)
+  }
+</script>

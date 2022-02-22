@@ -1,0 +1,16 @@
+{% extends 'social/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div name='post'>
+    <h1>{{ post.name }}</h1>
+    <img src="/media/{{ post.picture }}" width="200" height="200"></img>
+    <p>Created by: <a href="{% url 'profile' post.user.username %}">{{ post.user.username }}</a></p>
+    <p>Date: {{ post.created|naturaltime }}</p>
+    <p>Content: {{ post.content }}</p>
+</div>
+<div name='comments'>
+    {% include 'social/comments.html' %}
+</div>
+
+{% endblock content %}

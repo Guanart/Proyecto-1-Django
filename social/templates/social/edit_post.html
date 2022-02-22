@@ -1,0 +1,24 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<h2>Update post</h2>
+
+<form method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <div>
+        Title: {{ form.name }}
+    </div>
+    <div>
+        Content: {{ form.content }}
+    </div>
+    <div>
+        Picture: {{ form.picture }}
+    </div>
+    <button>Update</button>
+    {% if form.errors %}
+        <p>Data is not valid: {{ form.errors }}</p>
+    {% endif %}
+</form>
+
+{% endblock content %}
